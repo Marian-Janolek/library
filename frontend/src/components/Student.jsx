@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import { BsBook } from 'react-icons/bs';
 import styled from 'styled-components';
 
-const Library = ({ studentName, email }) => {
-  const borrowedBooks = ['Pan Prsteňov', 'Alica v krajine zázrakov'];
+const Library = ({ studentName, email, borrowedBooks }) => {
   return (
     <Wrapper>
       <header>
@@ -20,7 +19,9 @@ const Library = ({ studentName, email }) => {
           </span>
           <h5>Požičané knihy:</h5>
         </div>
-        <p>{borrowedBooks}</p>
+        <p>
+          {borrowedBooks === 0 ? 'Nemáš žiadne požičané knihy' : borrowedBooks}
+        </p>
         <footer>
           <div className="actions">
             <Link to="/add-library" className="btn edit-btn">

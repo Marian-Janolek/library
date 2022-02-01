@@ -2,25 +2,33 @@ import styled from 'styled-components';
 import StatsItem from './StatsItem';
 import { BsBook, BsFilePersonFill } from 'react-icons/bs';
 import { HiOutlineLibrary } from 'react-icons/hi';
+import { useLibraryContext } from '../context/libraryContext';
+import { useStudentContext } from '../context/studentContext';
+import { useBooksContext } from '../context/bookContext';
+
 const StatsContainer = () => {
+  const { libraries } = useLibraryContext();
+  const { students } = useStudentContext();
+  const { books } = useBooksContext();
+
   const defaultStats = [
     {
       title: 'Počet knižníc',
-      count: 5,
+      count: libraries.length || 0,
       icon: <HiOutlineLibrary />,
       color: '#e9b949',
       bcg: '#fcefc7',
     },
     {
       title: 'Počet študentov',
-      count: 22,
+      count: students.length || 0,
       icon: <BsFilePersonFill />,
       color: '#647acb',
       bcg: '#e0e8f9',
     },
     {
       title: 'Počet kníh',
-      count: 188,
+      count: books.length || 0,
       icon: <BsBook />,
       color: '#d66a6a',
       bcg: '#ffeeee',

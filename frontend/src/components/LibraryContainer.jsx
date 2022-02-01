@@ -1,21 +1,20 @@
 import Library from './Library';
 import styled from 'styled-components';
+import { useLibraryContext } from '../context/libraryContext';
 
 const LibraryContainer = () => {
-  const numOfStudents = 5;
-  const numOfPages = 11;
-  const libraryName = 'Velka kniznica';
+  const { libraries, isLoading } = useLibraryContext();
 
-  //   if (isLoading) {
-  //     return <Loading center />;
-  //   }
-  //   if (jobs.length === 0) {
-  //     return (
-  //       <Wrapper>
-  //         <h2>No jobs to display</h2>
-  //       </Wrapper>
-  //     );
-  //   }
+  // if (isLoading) {
+  //   return <Loading center />;
+  // }
+  if (libraries.length === 0) {
+    return (
+      <div>
+        <h2>No jobs to display</h2>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
@@ -23,11 +22,14 @@ const LibraryContainer = () => {
         {totalJobs} job{jobs.length > 1 && 's'} found
       </h5> */}
       <div className="libraries">
-        <Library
-          libraryName={libraryName}
-          numOfPages={numOfPages}
-          numOfStudents={numOfStudents}
-        />
+        {libraries.map((library) => (
+          <Library
+            libraryName={library.libraryName}
+            numOfBooks={library.books.length}
+            numOfStudents={library.students.length}
+            key={library._id}
+          />
+        ))}
       </div>
     </Wrapper>
   );

@@ -3,7 +3,7 @@ import { BsBook, BsFillPersonFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import LibraryInfo from './LibraryInfo';
 
-const Library = ({ libraryName, numOfPages, numOfStudents }) => {
+const Library = ({ libraryName, numOfBooks, numOfStudents }) => {
   return (
     <Wrapper>
       <header>
@@ -18,7 +18,7 @@ const Library = ({ libraryName, numOfPages, numOfStudents }) => {
             icon={<BsFillPersonFill />}
             text={`Počet študentov: ${numOfStudents}`}
           />
-          <LibraryInfo icon={<BsBook />} text={`Počet kníh: ${numOfPages}`} />
+          <LibraryInfo icon={<BsBook />} text={`Počet kníh: ${numOfBooks}`} />
         </div>
         <footer>
           <div className="actions">

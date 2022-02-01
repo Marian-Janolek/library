@@ -1,5 +1,5 @@
 import { IoBarChartSharp } from 'react-icons/io5';
-import { BsBook, BsFillPersonFill, BsFillPersonPlusFill } from 'react-icons/bs';
+import { BsFillPersonFill, BsFillPersonPlusFill } from 'react-icons/bs';
 import { HiOutlineLibrary } from 'react-icons/hi';
 import { AiOutlineFileSearch } from 'react-icons/ai';
 import { RiHealthBookFill } from 'react-icons/ri';

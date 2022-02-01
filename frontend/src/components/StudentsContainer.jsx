@@ -1,14 +1,22 @@
 import Student from './Student';
 import styled from 'styled-components';
+import { useStudentContext } from '../context/studentContext';
 
 const StudentsContainer = () => {
+  const { students } = useStudentContext();
   const studentName = 'Majko';
   const email = 'majko@example.com';
 
   return (
     <Wrapper>
       <div className="libraries">
-        <Student studentName={studentName} email={email} />
+        {students.map((student) => (
+          <Student
+            studentName={student.name}
+            email={student.email}
+            borrowedBooks={student.borrowedBooks.length}
+          />
+        ))}
       </div>
     </Wrapper>
   );
