@@ -6,6 +6,7 @@ import AllLibraries from './pages/AllLibraries';
 import SharedLayout from './pages/SharedLayout';
 import AllStudents from './pages/AllStudents';
 import Stats from './pages/Stats';
+import AddToLibrary from './pages/AddToLibrary';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route index element={<Stats />} />
           <Route path="/all-libraries" element={<AllLibraries />} />
           <Route path="/add-library" element={<AddLibrary />} />
+          <Route path="/addToLibrary" element={<AddToLibrary />} />
           <Route path="/add-student" element={<AddStudent />} />
           <Route path="/students" element={<AllStudents />} />
           <Route path="/add-book" element={<AddBook />} />

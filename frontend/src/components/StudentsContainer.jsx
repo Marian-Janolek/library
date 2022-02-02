@@ -1,9 +1,14 @@
 import Student from './Student';
 import styled from 'styled-components';
 import { useStudentContext } from '../context/studentContext';
+import Loading from '../components/Loading';
 
 const StudentsContainer = () => {
   const { students, isLoading } = useStudentContext();
+
+  if (isLoading) {
+    return <Loading center />;
+  }
 
   if (students.length === 0) {
     return (

@@ -39,7 +39,7 @@ const Library = ({ libraryName, numOfBooks, numOfStudents, _id }) => {
             >
               Vymaž
             </button>
-            <Link to="/add-library" className="btn add-student-btn">
+            <Link to="/addToLibrary" className="btn add-student-btn">
               Pridaj študenta
             </Link>
             <Link to="/add-library" className="btn add-book-btn">

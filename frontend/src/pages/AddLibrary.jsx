@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Alert from '../components/Alert';
 import { useLibraryContext } from '../context/libraryContext';
 
 const AddLibrary = () => {
@@ -11,6 +12,7 @@ const AddLibrary = () => {
     isEditing,
     editLibrary,
     isLoading,
+    showAlert,
   } = useLibraryContext();
 
   const handleInput = (e) => {
@@ -36,6 +38,7 @@ const AddLibrary = () => {
     <Wrapper>
       <form className="form">
         <h3>{isEditing ? 'edit knižnicu' : 'pridaj knižnicu'}</h3>
+        {showAlert && <Alert alertText="Vytvoril si novú knižnicu" />}
         <div className="form-center">
           {/* library name */}
           <div className="form-row">

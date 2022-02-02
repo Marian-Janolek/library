@@ -5,11 +5,16 @@ import { HiOutlineLibrary } from 'react-icons/hi';
 import { useLibraryContext } from '../context/libraryContext';
 import { useStudentContext } from '../context/studentContext';
 import { useBooksContext } from '../context/bookContext';
+import Loading from '../components/Loading';
 
 const StatsContainer = () => {
-  const { libraries } = useLibraryContext();
-  const { students } = useStudentContext();
-  const { books } = useBooksContext();
+  const { libraries, isLoading: libraryLoading } = useLibraryContext();
+  const { students, isLoading: studentLoading } = useStudentContext();
+  const { books, isLoading: bookLoading } = useBooksContext();
+
+  if (libraryLoading || studentLoading || bookLoading) {
+    return <Loading center />;
+  }
 
   const defaultStats = [
     {

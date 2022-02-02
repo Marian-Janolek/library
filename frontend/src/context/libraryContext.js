@@ -13,6 +13,7 @@ import {
   DELETE_LIBRARY,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CLEAR_ALERT,
 } from '../actions/actions';
 import reducer from '../reducer/libraryReducer';
 import axios from 'axios';
@@ -27,6 +28,7 @@ const initialState = {
   numOfStudents: 0,
   numOfBooks: 0,
   editLibraryId: '',
+  showAlert: false,
 };
 
 const LibraryContext = createContext();
@@ -59,6 +61,7 @@ const LibraryProvider = ({ children }) => {
     } catch (error) {
       dispatch({ type: CREATE_LIBRARY_ERROR });
     }
+    clearAlert();
   };
 
   const handleChange = ({ name, value }) => {
@@ -97,6 +100,11 @@ const LibraryProvider = ({ children }) => {
 
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
+  };
+  const clearAlert = () => {
+    setTimeout(() => {
+      dispatch({ type: CLEAR_ALERT });
+    }, 2000);
   };
 
   return (

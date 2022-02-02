@@ -1,13 +1,14 @@
 import Library from './Library';
 import styled from 'styled-components';
 import { useLibraryContext } from '../context/libraryContext';
+import Loading from '../components/Loading';
 
 const LibraryContainer = () => {
   const { libraries, isLoading } = useLibraryContext();
 
-  // if (isLoading) {
-  //   return <Loading center />;
-  // }
+  if (isLoading) {
+    return <Loading center />;
+  }
   if (libraries.length === 0) {
     return (
       <div>

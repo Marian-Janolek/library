@@ -12,6 +12,7 @@ import {
   DELETE_LIBRARY,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CLEAR_ALERT,
 } from '../actions/actions';
 
 const reducer = (state, action) => {
@@ -34,7 +35,7 @@ const reducer = (state, action) => {
     return { ...state, isLoading: true };
   }
   if (action.type === CREATE_LIBRARY_SUCCESS) {
-    return { ...state, isLoading: false };
+    return { ...state, isLoading: false, showAlert: true };
   }
   if (action.type === CREATE_LIBRARY_ERROR) {
     return { ...state, isLoading: false, error: true };
@@ -66,6 +67,9 @@ const reducer = (state, action) => {
   }
   if (action.type === EDIT_LIBRARY_ERROR) {
     return { ...state, isLoading: false, error: true };
+  }
+  if (action.type === CLEAR_ALERT) {
+    return { ...state, showAlert: false };
   }
 
   throw new Error(`No such action : ${action.type}`);
