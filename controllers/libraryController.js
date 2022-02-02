@@ -19,7 +19,7 @@ const getAllLibraries = async (req, res) => {
 const deleteLibrary = async (req, res) => {
   const { id: libraryId } = req.params;
 
-  const library = await Student.findOne({ _id: libraryId });
+  const library = await Library.findOne({ _id: libraryId });
   if (!library) {
     throw new Error(`No library find with id : ${libraryId}`);
   }
@@ -29,11 +29,6 @@ const deleteLibrary = async (req, res) => {
 
 const updateLibrary = async (req, res) => {
   const { id: libraryId } = req.params;
-  const { libraryName, headquarter } = req.body;
-
-  if (!libraryName || !headquarter) {
-    throw new Error('Please provide all values');
-  }
 
   const updateLibrary = await Library.findOneAndUpdate(
     { _id: libraryId },

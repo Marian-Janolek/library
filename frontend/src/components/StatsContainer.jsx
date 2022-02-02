@@ -14,21 +14,21 @@ const StatsContainer = () => {
   const defaultStats = [
     {
       title: 'Počet knižníc',
-      count: libraries.length || 0,
+      count: libraries?.length || 0,
       icon: <HiOutlineLibrary />,
       color: '#e9b949',
       bcg: '#fcefc7',
     },
     {
       title: 'Počet študentov',
-      count: students.length || 0,
+      count: students?.length || 0,
       icon: <BsFilePersonFill />,
       color: '#647acb',
       bcg: '#e0e8f9',
     },
     {
       title: 'Počet kníh',
-      count: books.length || 0,
+      count: books?.length || 0,
       icon: <BsBook />,
       color: '#d66a6a',
       bcg: '#ffeeee',

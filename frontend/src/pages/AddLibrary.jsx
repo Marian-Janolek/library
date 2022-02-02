@@ -1,21 +1,35 @@
 import styled from 'styled-components';
+import { useLibraryContext } from '../context/libraryContext';
 
 const AddLibrary = () => {
-  const isEditing = false;
-  const libraryName = 'Velka kniznica';
-  const headquarters = 'Bratislava 6';
+  const {
+    handleChange,
+    libraryName,
+    headquarter,
+    createLibrary,
+    clearValues,
+    isEditing,
+    editLibrary,
+    isLoading,
+  } = useLibraryContext();
 
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    // handleChange({ name, value });
+    handleChange({ name, value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!libraryName || !headquarters) {
+    if (!libraryName || !headquarter) {
       return <div>Chybajuca hodnota</div>;
     }
+    if (isEditing) {
+      editLibrary();
+      return;
+    }
+    createLibrary();
+    clearValues();
   };
 
   return (
@@ -37,15 +51,15 @@ const AddLibrary = () => {
             />
           </div>
 
-          {/* headquarters */}
+          {/* headquarter */}
           <div className="form-row">
-            <label htmlFor={headquarters} className="form-label">
+            <label htmlFor={headquarter} className="form-label">
               sídlo knižnice
             </label>
             <input
               type="text"
-              name="headquarters"
-              value={headquarters}
+              name="headquarter"
+              value={headquarter}
               onChange={handleInput}
               className="form-input"
             />
@@ -55,6 +69,7 @@ const AddLibrary = () => {
               type="submit"
               className="btn btn-block submit-btn"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
               submit
             </button>

@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { BsBook, BsFillPersonFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import LibraryInfo from './LibraryInfo';
+import { useLibraryContext } from '../context/libraryContext';
 
-const Library = ({ libraryName, numOfBooks, numOfStudents }) => {
+const Library = ({ libraryName, numOfBooks, numOfStudents, _id }) => {
+  const { deleteLibrary, setEditLibrary } = useLibraryContext();
+
   return (
     <Wrapper>
       <header>
@@ -22,10 +25,18 @@ const Library = ({ libraryName, numOfBooks, numOfStudents }) => {
         </div>
         <footer>
           <div className="actions">
-            <Link to="/add-library" className="btn edit-btn">
+            <Link
+              to="/add-library"
+              className="btn edit-btn"
+              onClick={() => setEditLibrary(_id)}
+            >
               Edit
             </Link>
-            <button type="button" className="btn delete-btn">
+            <button
+              type="button"
+              className="btn delete-btn"
+              onClick={() => deleteLibrary(_id)}
+            >
               Vymaž
             </button>
             <Link to="/add-library" className="btn add-student-btn">

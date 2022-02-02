@@ -6,12 +6,13 @@ import {
   CREATE_LIBRARY_ERROR,
   CREATE_LIBRARY_BEGIN,
   CREATE_LIBRARY_SUCCESS,
-  UPDATE_LIBRARY_ERROR,
-  UPDATE_LIBRARY_SUCCESS,
-  UPDATE_LIBRARY_BEGIN,
-  DELETE_LIBRARY_BEGIN,
-  DELETE_LIBRARY_ERROR,
-  DELETE_LIBRARY_SUCCESS,
+  SET_EDIT_LIBRARY,
+  EDIT_LIBRARY_BEGIN,
+  EDIT_LIBRARY_ERROR,
+  EDIT_LIBRARY_SUCCESS,
+  DELETE_LIBRARY,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
 } from '../actions/actions';
 import reducer from '../reducer/libraryReducer';
 import axios from 'axios';
@@ -19,10 +20,13 @@ import axios from 'axios';
 const initialState = {
   isLoading: false,
   error: false,
+  isEditing: false,
   libraries: [],
+  libraryName: '',
+  headquarter: '',
   numOfStudents: 0,
   numOfBooks: 0,
-  single_Library: {},
+  editLibraryId: '',
 };
 
 const LibraryContext = createContext();
@@ -45,10 +49,66 @@ const LibraryProvider = ({ children }) => {
     getLibraries();
   }, []);
 
+  const createLibrary = async () => {
+    dispatch({ type: CREATE_LIBRARY_BEGIN });
+    try {
+      const { libraryName, headquarter } = state;
+      await axios.post('/api/v1/libraries', { libraryName, headquarter });
+      dispatch({ type: CREATE_LIBRARY_SUCCESS });
+      getLibraries();
+    } catch (error) {
+      dispatch({ type: CREATE_LIBRARY_ERROR });
+    }
+  };
+
+  const handleChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { value, name } });
+  };
+
+  const deleteLibrary = async (libraryId) => {
+    dispatch({ type: DELETE_LIBRARY });
+    try {
+      await axios.delete(`api/v1/libraries/${libraryId}`);
+      getLibraries();
+    } catch (error) {}
+  };
+
+  const setEditLibrary = async (id) => {
+    dispatch({ type: SET_EDIT_LIBRARY, payload: { id } });
+  };
+
+  const editLibrary = async () => {
+    dispatch({ type: EDIT_LIBRARY_BEGIN });
+    try {
+      const { libraryName, headquarter } = state;
+      await axios.patch(`/api/v1/libraries/${state.editLibraryId}`, {
+        libraryName,
+        headquarter,
+      });
+      dispatch({ type: EDIT_LIBRARY_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+      getLibraries();
+    } catch (error) {
+      dispatch({
+        type: EDIT_LIBRARY_ERROR,
+      });
+    }
+  };
+
+  const clearValues = () => {
+    dispatch({ type: CLEAR_VALUES });
+  };
+
   return (
     <LibraryContext.Provider
       value={{
         ...state,
+        createLibrary,
+        handleChange,
+        deleteLibrary,
+        clearValues,
+        setEditLibrary,
+        editLibrary,
       }}
     >
       {children}
