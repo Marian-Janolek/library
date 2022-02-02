@@ -3,9 +3,15 @@ import styled from 'styled-components';
 import { useStudentContext } from '../context/studentContext';
 
 const StudentsContainer = () => {
-  const { students } = useStudentContext();
-  const studentName = 'Majko';
-  const email = 'majko@example.com';
+  const { students, isLoading } = useStudentContext();
+
+  if (students.length === 0) {
+    return (
+      <div>
+        <h2>No students to display</h2>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
@@ -15,6 +21,8 @@ const StudentsContainer = () => {
             studentName={student.name}
             email={student.email}
             borrowedBooks={student.borrowedBooks.length}
+            key={student._id}
+            _id={student._id}
           />
         ))}
       </div>

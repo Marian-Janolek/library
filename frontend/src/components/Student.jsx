@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { BsBook } from 'react-icons/bs';
 import styled from 'styled-components';
+import { useStudentContext } from '../context/studentContext';
 
-const Library = ({ studentName, email, borrowedBooks }) => {
+const Student = ({ studentName, email, borrowedBooks, _id }) => {
+  const { deleteStudent, setEditStudent } = useStudentContext();
+
   return (
     <Wrapper>
       <header>
@@ -24,10 +27,18 @@ const Library = ({ studentName, email, borrowedBooks }) => {
         </p>
         <footer>
           <div className="actions">
-            <Link to="/add-library" className="btn edit-btn">
+            <Link
+              to="/add-student"
+              className="btn edit-btn"
+              onClick={() => setEditStudent(_id)}
+            >
               Edit
             </Link>
-            <button type="button" className="btn delete-btn">
+            <button
+              type="button"
+              className="btn delete-btn"
+              onClick={() => deleteStudent(_id)}
+            >
               Vymaž
             </button>
             <Link to="/borrow-book" className="btn add-book-btn">
@@ -126,4 +137,4 @@ const Wrapper = styled.article`
   }
 `;
 
-export default Library;
+export default Student;

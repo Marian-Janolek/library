@@ -64,7 +64,7 @@ const reducer = (state, action) => {
   if (action.type === EDIT_LIBRARY_SUCCESS) {
     return { ...state, isLoading: false };
   }
-  if (action.type === EDIT_LIBRARY_BEGIN) {
+  if (action.type === EDIT_LIBRARY_ERROR) {
     return { ...state, isLoading: false, error: true };
   }
 

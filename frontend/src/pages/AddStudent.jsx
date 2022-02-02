@@ -1,51 +1,66 @@
 import styled from 'styled-components';
+import { useLibraryContext } from '../context/libraryContext';
+import { useStudentContext } from '../context/studentContext';
 
 const AddStudent = () => {
-  const isEditing = false;
-  const studentName = 'Majko';
-  const studentEmail = 'majko@example.com';
+  const {
+    name,
+    email,
+    createStudent,
+    clearValues,
+    isEditing,
+    editStudent,
+    isLoading,
+    handleChange,
+  } = useStudentContext();
 
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    // handleChange({ name, value });
+    handleChange({ name, value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!studentName || !studentEmail) {
+    if (!name || !email) {
       return <div>Chybajuca hodnota</div>;
     }
+    if (isEditing) {
+      editStudent();
+      return;
+    }
+    createStudent();
+    clearValues();
   };
 
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? 'edit knižnicu' : 'vytvor študenta'}</h3>
+        <h3>{isEditing ? 'edit študenta' : 'vytvor študenta'}</h3>
         <div className="form-center">
-          {/* library name */}
+          {/* student name */}
           <div className="form-row">
-            <label htmlFor={studentName} className="form-label">
+            <label htmlFor={name} className="form-label">
               meno študenta
             </label>
             <input
               type="text"
-              name="studentName"
-              value={studentName}
+              name="name"
+              value={name}
               onChange={handleInput}
               className="form-input"
             />
           </div>
 
-          {/* headquarters */}
+          {/* email */}
           <div className="form-row">
-            <label htmlFor={studentEmail} className="form-label">
+            <label htmlFor={email} className="form-label">
               email
             </label>
             <input
               type="email"
-              name="studentEmail"
-              value={studentEmail}
+              name="email"
+              value={email}
               onChange={handleInput}
               className="form-input"
             />
@@ -55,6 +70,7 @@ const AddStudent = () => {
               type="submit"
               className="btn btn-block submit-btn"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
               submit
             </button>
@@ -62,6 +78,7 @@ const AddStudent = () => {
               className="btn btn-block clear-btn"
               onClick={(e) => {
                 e.preventDefault();
+                clearValues();
               }}
             >
               clear

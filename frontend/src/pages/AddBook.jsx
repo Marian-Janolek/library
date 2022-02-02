@@ -1,21 +1,24 @@
 import styled from 'styled-components';
+import { useBooksContext } from '../context/bookContext';
 
 const AddBook = () => {
   const isEditing = false;
-  const bookName = 'Pan prsteňov';
-  const bookGenre = 'dobrodružný';
+  const { title, genre, clearValues, createBook, handleChange } =
+    useBooksContext();
 
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    // handleChange({ name, value });
+    handleChange({ name, value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!bookName || !bookGenre) {
+    if (!title || !genre) {
       return <div>Chybajuca hodnota</div>;
     }
+    createBook();
+    clearValues();
   };
 
   return (
@@ -23,29 +26,29 @@ const AddBook = () => {
       <form className="form">
         <h3>{isEditing ? 'edit knižnicu' : 'vytvor knihu'}</h3>
         <div className="form-center">
-          {/* library name */}
+          {/* book name */}
           <div className="form-row">
-            <label htmlFor={bookName} className="form-label">
+            <label htmlFor={title} className="form-label">
               názov knihy
             </label>
             <input
               type="text"
-              name="bookName"
-              value={bookName}
+              name="title"
+              value={title}
               onChange={handleInput}
               className="form-input"
             />
           </div>
 
-          {/* headquarters */}
+          {/* book genre */}
           <div className="form-row">
-            <label htmlFor={bookGenre} className="form-label">
+            <label htmlFor={genre} className="form-label">
               žáner
             </label>
             <input
               type="email"
-              name="bookGenre"
-              value={bookGenre}
+              name="genre"
+              value={genre}
               onChange={handleInput}
               className="form-input"
             />

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Library from './Library';
 import styled from 'styled-components';
 import { useLibraryContext } from '../context/libraryContext';

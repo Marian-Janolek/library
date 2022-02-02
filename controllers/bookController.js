@@ -29,11 +29,6 @@ const deleteBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
   const { id: bookId } = req.params;
-  const { title, genre } = req.body;
-
-  if (!title || !genre) {
-    throw new Error('Please provide all values');
-  }
 
   const updateBook = await Student.findOneAndUpdate({ _id: bookId }, req.body, {
     new: true,

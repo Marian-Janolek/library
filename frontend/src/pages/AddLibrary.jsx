@@ -77,6 +77,7 @@ const AddLibrary = () => {
               className="btn btn-block clear-btn"
               onClick={(e) => {
                 e.preventDefault();
+                clearValues();
               }}
             >
               clear

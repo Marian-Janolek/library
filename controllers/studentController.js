@@ -29,11 +29,6 @@ const deleteStudent = async (req, res) => {
 
 const updateStudent = async (req, res) => {
   const { id: studentId } = req.params;
-  const { name, email } = req.body;
-
-  if (!name || !email) {
-    throw new Error('Please provide all values');
-  }
 
   const updateStudent = await Student.findOneAndUpdate(
     { _id: studentId },
