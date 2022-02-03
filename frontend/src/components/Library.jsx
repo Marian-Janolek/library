@@ -5,7 +5,7 @@ import LibraryInfo from './LibraryInfo';
 import { useLibraryContext } from '../context/libraryContext';
 
 const Library = ({ libraryName, numOfBooks, numOfStudents, _id }) => {
-  const { deleteLibrary, setEditLibrary } = useLibraryContext();
+  const { deleteLibrary, setEditLibrary, getLibraryId } = useLibraryContext();
 
   return (
     <Wrapper>
@@ -39,10 +39,18 @@ const Library = ({ libraryName, numOfBooks, numOfStudents, _id }) => {
             >
               Vymaž
             </button>
-            <Link to="/addToLibrary" className="btn add-student-btn">
+            <Link
+              to="/addToLibrary"
+              className="btn add-student-btn"
+              onClick={() => getLibraryId(_id)}
+            >
               Pridaj študenta
             </Link>
-            <Link to="/add-library" className="btn add-book-btn">
+            <Link
+              to="/addBookToLibrary"
+              className="btn add-book-btn"
+              onClick={() => getLibraryId(_id)}
+            >
               Pridaj knihu
             </Link>
           </div>

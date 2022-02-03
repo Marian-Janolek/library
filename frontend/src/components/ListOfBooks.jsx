@@ -1,42 +1,42 @@
 import styled from 'styled-components';
-import { useStudentContext } from '../context/studentContext';
+import { useBooksContext } from '../context/bookContext';
 import { useLibraryContext } from '../context/libraryContext';
 import Alert from './Alert';
 import { useState } from 'react';
 
-const ListOfStudents = () => {
-  const { students } = useStudentContext();
-  const { addToLibrary, removeFromLibrary, showAlert, isLoading } =
+const ListOfBooks = () => {
+  const { books } = useBooksContext();
+  const { addBookToLibrary, removeBookFromLibrary, showAlert, isLoading } =
     useLibraryContext();
   const [alert, setAlert] = useState('');
 
   return (
     <Wrapper>
-      <h2>študenti</h2>
+      <h2>Knihy</h2>
       {showAlert && <Alert alertText={alert} />}
       <table>
         <tbody>
           <tr>
             <th>id</th>
-            <th>meno</th>
-            <th>email</th>
+            <th>title</th>
+            <th>genre</th>
             <th className="icons"></th>
           </tr>
-          {students.map((student) => {
-            const { _id: studentId, name, email } = student;
+          {books?.map((book) => {
+            const { _id: bookId, title, genre } = book;
             return (
-              <tr key={studentId}>
-                <td>{studentId}</td>
-                <td className="name">{name}</td>
-                <td className="email">{email}</td>
+              <tr key={bookId}>
+                <td>{bookId}</td>
+                <td className="name">{title}</td>
+                <td className="email">{genre}</td>
                 <td className="btn-flex">
                   <button
                     className="btn add-student-btn"
                     disabled={isLoading}
                     onClick={(e) => {
                       e.preventDefault();
-                      setAlert('Študent pridaný do knižnice!');
-                      addToLibrary(studentId);
+                      setAlert('Kniha pridaná do knižnice!');
+                      addBookToLibrary(bookId);
                     }}
                   >
                     pridaj
@@ -46,8 +46,8 @@ const ListOfStudents = () => {
                     disabled={isLoading}
                     onClick={(e) => {
                       e.preventDefault();
-                      setAlert('Študent vymazaný z knižnice!');
-                      removeFromLibrary(studentId);
+                      setAlert('Kniha vymazaná z knižnice!');
+                      removeBookFromLibrary(bookId);
                     }}
                   >
                     odober
@@ -119,4 +119,4 @@ const Wrapper = styled.article`
   }
 `;
 
-export default ListOfStudents;
+export default ListOfBooks;

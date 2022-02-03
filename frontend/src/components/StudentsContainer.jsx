@@ -1,5 +1,5 @@
 import Student from './Student';
-import styled from 'styled-components';
+import Wrapper from '../wrappers/Container';
 import { useStudentContext } from '../context/studentContext';
 import Loading from '../components/Loading';
 
@@ -25,7 +25,7 @@ const StudentsContainer = () => {
           <Student
             studentName={student.name}
             email={student.email}
-            borrowedBooks={student.borrowedBooks.length}
+            borrowedBooks={student.borrowedBooks}
             key={student._id}
             _id={student._id}
           />
@@ -34,26 +34,5 @@ const StudentsContainer = () => {
     </Wrapper>
   );
 };
-
-const Wrapper = styled.section`
-  h2 {
-    text-transform: none;
-  }
-  & > h5 {
-    font-weight: 700;
-  }
-  .libraries {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-  }
-  @media (min-width: 992px) {
-    .libraries {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-  }
-`;
 
 export default StudentsContainer;

@@ -41,5 +41,35 @@ const updateStudent = async (req, res) => {
 
   res.status(200).json({ updateStudent });
 };
+const addBookToStudent = async (req, res) => {
+  const { id: studentId } = req.params;
+  const { bookId } = req.body;
 
-export { createStudent, getAllStudents, deleteStudent, updateStudent };
+  const updateStudent = await Student.findOne({ _id: studentId });
+
+  const bookIdAlreadyExist = updateStudent.borrowedBooks.find(
+    (id) => id === bookId
+  );
+
+  if (req.method === 'PATCH') {
+    if (bookIdAlreadyExist !== bookId) {
+      bookId && updateStudent.borrowedBooks.push(bookId);
+      await updateStudent.save();
+    } else {
+      return res.status(400).json({ msg: 'Kniha je už požičaná!' });
+    }
+  }
+  if (req.method === 'DELETE') {
+    bookId && updateStudent.borrowedBooks.pop(bookId);
+    await updateStudent.save();
+  }
+  res.status(200).json({ updateStudent });
+};
+
+export {
+  createStudent,
+  getAllStudents,
+  deleteStudent,
+  updateStudent,
+  addBookToStudent,
+};

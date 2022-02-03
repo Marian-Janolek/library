@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
 import { BsBook } from 'react-icons/bs';
-import styled from 'styled-components';
+import Wrapper from '../wrappers/Card';
 import { useStudentContext } from '../context/studentContext';
+import { useBooksContext } from '../context/bookContext';
 
 const Student = ({ studentName, email, borrowedBooks, _id }) => {
-  const { deleteStudent, setEditStudent } = useStudentContext();
+  const { deleteStudent, setEditStudent, getStudentId } = useStudentContext();
+
+  const { books } = useBooksContext();
+  const borrowedBook = books.filter(function (o1) {
+    return borrowedBooks.some(function (o2) {
+      return o1._id === o2;
+    });
+  });
 
   return (
     <Wrapper>
@@ -23,7 +31,14 @@ const Student = ({ studentName, email, borrowedBooks, _id }) => {
           <h5>Požičané knihy:</h5>
         </div>
         <p>
-          {borrowedBooks === 0 ? 'Nemáš žiadne požičané knihy' : borrowedBooks}
+          {borrowedBooks.length === 0
+            ? 'Nemáš žiadne požičané knihy'
+            : borrowedBook.map((book, i) => (
+                <span key={i}>
+                  {book.title}
+                  <br />
+                </span>
+              ))}
         </p>
         <footer>
           <div className="actions">
@@ -41,7 +56,11 @@ const Student = ({ studentName, email, borrowedBooks, _id }) => {
             >
               Vymaž
             </button>
-            <Link to="/borrow-book" className="btn add-book-btn">
+            <Link
+              to="/borrow-book"
+              className="btn add-book-btn"
+              onClick={() => getStudentId(_id)}
+            >
               požičaj/vráť knihu
             </Link>
           </div>
@@ -50,91 +69,5 @@ const Student = ({ studentName, email, borrowedBooks, _id }) => {
     </Wrapper>
   );
 };
-
-const Wrapper = styled.article`
-  background: var(--white);
-  border-radius: var(--borderRadius);
-  display: grid;
-  grid-template-rows: 1fr auto;
-  box-shadow: var(--shadow-2);
-
-  header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--grey-100);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    h5 {
-      letter-spacing: 0;
-    }
-  }
-  .main-icon {
-    width: 60px;
-    height: 60px;
-    display: grid;
-    place-items: center;
-    background: var(--primary-500);
-    border-radius: var(--borderRadius);
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-right: 2rem;
-  }
-  .info {
-    h5 {
-      margin-bottom: 0.25rem;
-    }
-    p {
-      margin: 0;
-      color: var(--grey-400);
-      letter-spacing: var(--letterSpacing);
-    }
-  }
-  .content {
-    padding: 1rem 1.5rem;
-  }
-  .content-center {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    svg {
-      font-size: 1.5rem;
-    }
-  }
-  footer {
-    margin-top: 1rem;
-  }
-  .edit-btn,
-  .delete-btn,
-  .add-book-btn {
-    letter-spacing: var(--letterSpacing);
-    cursor: pointer;
-    height: 30px;
-    display: flex;
-    align-items: center;
-  }
-  .edit-btn {
-    color: var(--green-dark);
-    background: var(--green-light);
-    margin-right: 0.5rem;
-  }
-  .delete-btn {
-    color: var(--red-dark);
-    background: var(--red-light);
-  }
-  .add-book-btn {
-    color: blue;
-    background: #b3b3ff;
-  }
-  &:hover .actions {
-    visibility: visible;
-  }
-  .actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-`;
 
 export default Student;

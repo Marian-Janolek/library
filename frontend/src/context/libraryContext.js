@@ -14,6 +14,19 @@ import {
   HANDLE_CHANGE,
   CLEAR_VALUES,
   CLEAR_ALERT,
+  GET_LIBRARY_ID,
+  DELETE_FROM_LIBRARY_BEGIN,
+  DELETE_FROM_LIBRARY_SUCCESS,
+  DELETE_FROM_LIBRARY_ERROR,
+  ADD_TO_LIBRARY_BEGIN,
+  ADD_TO_LIBRARY_SUCCESS,
+  ADD_TO_LIBRARY_ERROR,
+  ADD_BOOK_TO_LIBRARY_BEGIN,
+  ADD_BOOK_TO_LIBRARY_ERROR,
+  ADD_BOOK_TO_LIBRARY_SUCCESS,
+  DELETE_BOOK_FROM_LIBRARY_BEGIN,
+  DELETE_BOOK_FROM_LIBRARY_SUCCESS,
+  DELETE_BOOK_FROM_LIBRARY_ERROR,
 } from '../actions/actions';
 import reducer from '../reducer/libraryReducer';
 import axios from 'axios';
@@ -49,7 +62,7 @@ const LibraryProvider = ({ children }) => {
 
   useEffect(() => {
     getLibraries();
-  }, []);
+  }, [state.numOfStudents, state.numOfBooks]);
 
   const createLibrary = async () => {
     dispatch({ type: CREATE_LIBRARY_BEGIN });
@@ -73,7 +86,9 @@ const LibraryProvider = ({ children }) => {
     try {
       await axios.delete(`api/v1/libraries/${libraryId}`);
       getLibraries();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const setEditLibrary = async (id) => {
@@ -107,6 +122,76 @@ const LibraryProvider = ({ children }) => {
     }, 2000);
   };
 
+  const addToLibrary = async (studentId) => {
+    dispatch({ type: ADD_TO_LIBRARY_BEGIN });
+    try {
+      await axios.patch(
+        `/api/v1/libraries/addToLibrary/${state.editLibraryId}`,
+        {
+          studentId,
+        }
+      );
+      dispatch({ type: ADD_TO_LIBRARY_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      dispatch({
+        type: ADD_TO_LIBRARY_ERROR,
+      });
+    }
+    clearAlert();
+  };
+
+  const getLibraryId = async (id) => {
+    dispatch({ type: GET_LIBRARY_ID, payload: { id } });
+  };
+
+  const removeFromLibrary = async (studentId) => {
+    dispatch({ type: DELETE_FROM_LIBRARY_BEGIN });
+    try {
+      await axios.delete(
+        `/api/v1/libraries/addToLibrary/${state.editLibraryId}`,
+        { data: { studentId } }
+      );
+      dispatch({ type: DELETE_FROM_LIBRARY_SUCCESS });
+    } catch (error) {
+      dispatch({ type: DELETE_FROM_LIBRARY_ERROR });
+    }
+    clearAlert();
+  };
+
+  const addBookToLibrary = async (bookId) => {
+    dispatch({ type: ADD_BOOK_TO_LIBRARY_BEGIN });
+    try {
+      await axios.patch(
+        `/api/v1/libraries/addToLibrary/${state.editLibraryId}`,
+        {
+          bookId,
+        }
+      );
+      dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      dispatch({
+        type: ADD_BOOK_TO_LIBRARY_ERROR,
+      });
+    }
+    clearAlert();
+  };
+
+  const removeBookFromLibrary = async (bookId) => {
+    dispatch({ type: DELETE_BOOK_FROM_LIBRARY_BEGIN });
+    try {
+      await axios.delete(
+        `/api/v1/libraries/addToLibrary/${state.editLibraryId}`,
+        { data: { bookId } }
+      );
+      dispatch({ type: DELETE_BOOK_FROM_LIBRARY_SUCCESS });
+    } catch (error) {
+      dispatch({ type: DELETE_BOOK_FROM_LIBRARY_ERROR });
+    }
+    clearAlert();
+  };
+
   return (
     <LibraryContext.Provider
       value={{
@@ -117,6 +202,12 @@ const LibraryProvider = ({ children }) => {
         clearValues,
         setEditLibrary,
         editLibrary,
+        addToLibrary,
+        removeFromLibrary,
+        getLibraryId,
+        removeBookFromLibrary,
+        addBookToLibrary,
+        clearAlert,
       }}
     >
       {children}

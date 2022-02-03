@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Alert from '../components/Alert';
 import { useLibraryContext } from '../context/libraryContext';
 import { useStudentContext } from '../context/studentContext';
 
@@ -12,6 +13,7 @@ const AddStudent = () => {
     editStudent,
     isLoading,
     handleChange,
+    showAlert,
   } = useStudentContext();
 
   const handleInput = (e) => {
@@ -23,7 +25,7 @@ const AddStudent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email) {
-      return <div>Chybajuca hodnota</div>;
+      return <Alert alertText="Zadaj všetky hodnoty" />;
     }
     if (isEditing) {
       editStudent();
@@ -37,6 +39,7 @@ const AddStudent = () => {
     <Wrapper>
       <form className="form">
         <h3>{isEditing ? 'edit študenta' : 'vytvor študenta'}</h3>
+        {showAlert && <Alert alertText="Vytvoril si nového študenta!" />}
         <div className="form-center">
           {/* student name */}
           <div className="form-row">

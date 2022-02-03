@@ -42,4 +42,39 @@ const updateLibrary = async (req, res) => {
   res.status(200).json({ updateLibrary });
 };
 
-export { createLibrary, getAllLibraries, deleteLibrary, updateLibrary };
+const addToLibrary = async (req, res) => {
+  const { id: libraryId } = req.params;
+  const { studentId, bookId } = req.body;
+
+  const updateLibrary = await Library.findOne({ _id: libraryId });
+  const studentIdAlreadyExist = updateLibrary.students.find(
+    (id) => id === studentId
+  );
+  const bookIdAlreadyExist = updateLibrary.books.find((id) => id === bookId);
+
+  if (req.method === 'PATCH') {
+    if (studentIdAlreadyExist !== studentId) {
+      studentId && updateLibrary.students.push(studentId);
+      await updateLibrary.save();
+    } else if (bookIdAlreadyExist !== bookId) {
+      bookId && updateLibrary.books.push(bookId);
+      await updateLibrary.save();
+    } else {
+      return res.status(400).json({ msg: 'Student sa nachadza v kniznici' });
+    }
+  }
+  if (req.method === 'DELETE') {
+    studentId && updateLibrary.students.pop(studentId);
+    bookId && updateLibrary.books.pop(bookId);
+    await updateLibrary.save();
+  }
+  res.status(200).json({ updateLibrary });
+};
+
+export {
+  createLibrary,
+  getAllLibraries,
+  deleteLibrary,
+  updateLibrary,
+  addToLibrary,
+};
